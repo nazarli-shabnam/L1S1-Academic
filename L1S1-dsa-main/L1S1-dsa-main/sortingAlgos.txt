@@ -1,0 +1,141 @@
+**Selection Sort**
+
+Algorithm SelectionSort(arr, n)
+    For i = 0 to n-1 do
+        minIndex = i  // Assume the minimum element is at index i
+        For j = i+1 to n-1 do
+            If arr[j] < arr[minIndex] then
+                minIndex = j  // Update minIndex if a smaller element is found
+            End If
+        End For
+        // Swap the found minimum element with the element at index i
+        Swap arr[i] and arr[minIndex]
+    End For
+End Algorithm
+
+---------------------------------------------------------------------------------------------
+
+**Bubble Sort**
+
+Algorithm BubbleSort(arr, n)
+    For i = 0 to n-1 do
+        swapped = False  // To optimize the process and stop early if no swaps are needed
+        For j = 0 to n-i-2 do
+            If arr[j] > arr[j+1] then
+                Swap arr[j] and arr[j+1]
+                swapped = True
+            End If
+        End For
+        If swapped == False then
+            Break  // Stop if no swaps were done in the inner loop (already sorted)
+    End For
+End Algorithm
+
+-----------------------------------------------------------------------------
+
+**InsertionSort**
+
+Algorithm InsertionSort(arr, n)
+    For i = 1 to n-1 do
+        key = arr[i]
+        j = i - 1
+
+        While j >= 0 and arr[j] > key do
+            arr[j + 1] = arr[j]
+            j = j - 1
+        End While
+        arr[j + 1] = key  // Insert the key in its correct position
+    End For
+End Algorithm
+
+--------------------------------------------------------------------------
+
+**QuickSort**
+
+Algorithm QuickSort(arr, low, high)
+    If low < high then
+        // Partition the array and get the pivot index
+        pivotIndex = Partition(arr, low, high)
+        
+        // Recursively apply QuickSort to the left and right sub-arrays
+        QuickSort(arr, low, pivotIndex - 1)   // Left of pivot
+        QuickSort(arr, pivotIndex + 1, high)  // Right of pivot
+    End If
+End Algorithm
+
+Algorithm Partition(arr, low, high)
+    pivot = arr[high]   // Choose the last element as pivot
+    i = low - 1         // Index of the smaller element
+    
+    For j = low to high - 1 do
+        If arr[j] < pivot then
+            i = i + 1
+            Swap arr[i] and arr[j]
+        End If
+    End For
+    Swap arr[i + 1] and arr[high]  // Place pivot in the correct position
+    Return (i + 1)   // Return pivot index
+End Algorithm
+
+
+--------------------------------------------------------------------------------
+
+**MergeSort**
+
+Algorithm MergeSort(arr, left, right)
+    If left < right then
+        // Find the middle point
+        mid = (left + right) / 2
+
+        // Recursively sort the two halves
+        MergeSort(arr, left, mid)
+        MergeSort(arr, mid + 1, right)
+
+        // Merge the sorted halves
+        Merge(arr, left, mid, right)
+    End If
+End Algorithm
+
+Algorithm Merge(arr, left, mid, right)
+    // Find the size of the two sub-arrays to be merged
+    n1 = mid - left + 1
+    n2 = right - mid
+
+    // Create temporary arrays L and R
+    Let L[0..n1-1] and R[0..n2-1]
+
+    // Copy data to temporary arrays L[] and R[]
+    For i = 0 to n1 - 1 do
+        L[i] = arr[left + i]
+    End For
+    For j = 0 to n2 - 1 do
+        R[j] = arr[mid + 1 + j]
+    End For
+
+    // Merge the temporary arrays back into arr[left..right]
+    i = 0, j = 0, k = left
+    While i < n1 and j < n2 do
+        If L[i] <= R[j] then
+            arr[k] = L[i]
+            i = i + 1
+        Else
+            arr[k] = R[j]
+            j = j + 1
+        End If
+        k = k + 1
+    End While
+
+    // Copy the remaining elements of L[], if any
+    While i < n1 do
+        arr[k] = L[i]
+        i = i + 1
+        k = k + 1
+    End While
+
+    // Copy the remaining elements of R[], if any
+    While j < n2 do
+        arr[k] = R[j]
+        j = j + 1
+        k = k + 1
+    End While
+End Algorithm
