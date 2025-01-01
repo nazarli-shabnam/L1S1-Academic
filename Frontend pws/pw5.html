@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Info Websitee</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      input,
+      select,
+      textarea,
+      button {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"] {
+        width: auto;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #888;
+      }
+
+      input:required,
+      textarea:required {
+        border-color: red;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #00f;
+      }
+
+      fieldset {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 15px;
+      }
+
+      legend {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="script.php" method="POST">
+      <fieldset>
+        <legend>Personal Info</legend>
+
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your name"
+          required
+        />
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Preferences</legend>
+
+        <label for="comments">Comments:</label>
+        <textarea
+          id="comments"
+          name="comments"
+          placeholder="Write your comments..."
+          required
+        ></textarea>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male" />
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female" />
+        <label for="female">Female</label>
+        <label for="subscribe">Subscribe to newsletter:</label>
+        <input type="checkbox" id="subscribe" name="subscribe" />
+      </fieldset>
+
+      <label for="category">Choose a category:</label>
+      <select id="category" name="category" required>
+        <optgroup label="Technology">
+          <option value="ai">Artificial Intelligence</option>
+          <option value="cybersecurity">Cybersecurity</option>
+        </optgroup>
+        <optgroup label="Business">
+          <option value="marketing">Marketing</option>
+          <option value="finance">Finance</option>
+        </optgroup>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

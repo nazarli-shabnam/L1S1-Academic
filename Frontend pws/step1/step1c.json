@@ -1,0 +1,14 @@
+[
+  { "idRoadType": 1, "type": "Highway" },
+  { "idRoadType": 2, "type": "City Road" },
+  { "idRoadType": 3, "type": "Country Road" },
+  { "idRoadType": 4, "type": "Gravel Road" }
+]
+
+
+[
+    { "idTraffic": 1, "condition": "Light Traffic" },
+    { "idTraffic": 2, "condition": "Moderate Traffic" },
+    { "idTraffic": 3, "condition": "Heavy Traffic" }
+  ]
+  

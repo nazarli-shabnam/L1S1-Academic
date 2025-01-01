@@ -1,0 +1,7 @@
+[
+    { "idWeather": 1, "weatherCondition": "Sunny" },
+    { "idWeather": 2, "weatherCondition": "windless" },
+    { "idWeather": 3, "weatherCondition": "Calm" },
+    { "idWeather": 4, "weatherCondition": "Wet" },
+    { "idWeather": 5, "weatherCondition": "Stormy" }
+]

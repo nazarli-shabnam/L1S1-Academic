@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      let weather = [
+        { idWeather: 1, weatherCondition: "Sunny" },
+        { idWeather: 2, weatherCondition: "Cloudy" },
+        { idWeather: 3, weatherCondition: "Rainy" },
+        { idWeather: 4, weatherCondition: "Snowy" },
+        { idWeather: 5, weatherCondition: "Windy" },
+      ];
+
+      function save() {
+        let date = document.getElementById("date").value;
+        let km = document.getElementById("km").value;
+        let idWeather = document.getElementById("idWeather").value;
+        console.log(date, km, idWeather);
+      }
+    </script>
+  </head>
+  <body>
+    <form>
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" />
+      <br /><br />
+      <label for="km">Distance</label>
+      <input type="number" id="km" name="km" min="0" />
+      <br />
+      <label for="idWeather">Weather Condition</label>
+      <select id="idWeather">
+        <option value="">Choose</option>
+      </select>
+      <br />
+      <button type="button" onclick="save()">Save</button>
+    </form>
+
+    <script>
+      weather.forEach(function (item) {
+        let theOption = `<option value="${item.idWeather}">${item.weatherCondition}</option>`;
+        document
+          .getElementById("idWeather")
+          .insertAdjacentHTML("beforeend", theOption);
+      });
+    </script>
+  </body>
+</html>

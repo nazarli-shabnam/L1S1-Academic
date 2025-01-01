@@ -1,0 +1,20 @@
+{
+  "weather": [
+    { "id": "1", "name": "Sunny" },
+    { "id": "2", "name": "Windless" },
+    { "id": "3", "name": "Calm" },
+    { "id": "4", "name": "Wet" },
+    { "id": "5", "name": "Stormy" }
+  ],
+  "roadType": [
+    { "id": "1", "name": "Highway" },
+    { "id": "2", "name": "City Road" },
+    { "id": "3", "name": "Country Road" },
+    { "id": "4", "name": "Gravel Road" }
+  ],
+  "traffic": [
+    { "id": "1", "name": "Light Traffic" },
+    { "id": "2", "name": "Moderate Traffic" },
+    { "id": "3", "name": "Heavy Traffic" }
+  ]
+}

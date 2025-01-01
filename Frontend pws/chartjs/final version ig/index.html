@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Driving Experience Assistant</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: #6200ea;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .layout-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .form-container {
+        flex: 1;
+        max-width: 40%;
+      }
+
+      .driving-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 5px;
+      }
+
+      input,
+      select,
+      button {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: #6200ea;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3700b3;
+      }
+
+      .charts-container {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .pie-charts-row {
+        display: flex;
+        width: 40%;
+      }
+
+      canvas {
+        max-width: 100%;
+        height: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #6200ea;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @media (max-width: 768px) {
+        .layout-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .form-container {
+          max-width: 100%;
+        }
+
+        .charts-container {
+          width: 100%;
+        }
+
+        .pie-charts-row {
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+
+        canvas {
+          max-width: 90%;
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Driving Experience Assistant</h1>
+    </header>
+    <main>
+      <div class="layout-container">
+        <div class="form-container">
+          <form id="drivingForm" class="driving-form">
+            <input type="hidden" id="identifier" name="identifier" value="1" />
+            <div class="form-group">
+              <label for="date">Date:</label>
+              <input type="date" id="date" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="start_time">Start Time:</label>
+              <input type="time" id="start_time" name="start_time" required />
+            </div>
+            <div class="form-group">
+              <label for="end_time">End Time:</label>
+              <input type="time" id="end_time" name="end_time" required />
+            </div>
+            <div class="form-group">
+              <label for="km">Kilometres Travelled:</label>
+              <input type="number" id="km" name="km" min="1" required />
+            </div>
+            <div class="form-group">
+              <label for="idWeather">Weather Condition:</label>
+              <select id="idWeather" name="idWeather" required>
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="idRoadType">Road Type:</label>
+              <select id="idRoadType" name="idRoadType" required>
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="idTraffic">Traffic Condition:</label>
+              <select id="idTraffic" name="idTraffic" required>
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button type="button" id="submitExperience">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div class="charts-container">
+          <canvas id="summaryChart"></canvas>
+          <div class="pie-charts-row">
+            <canvas id="pieChartWeather"></canvas>
+            <canvas id="pieChartRoadType"></canvas>
+            <canvas id="pieChartTraffic"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Driving Experience Assistant | Shabnam Nazarli</p>
+    </footer>
+    <script>
+      const LOCAL_STORAGE_KEY = "drivingExperiences";
+
+      const data = {
+        weather: [
+          { id: "1", name: "Sunny" },
+          { id: "2", name: "Windless" },
+          { id: "3", name: "Calm" },
+          { id: "4", name: "Wet" },
+          { id: "5", name: "Stormy" },
+        ],
+        roadType: [
+          { id: "1", name: "Highway" },
+          { id: "2", name: "City Road" },
+          { id: "3", name: "Country Road" },
+          { id: "4", name: "Gravel Road" },
+        ],
+        traffic: [
+          { id: "1", name: "Light Traffic" },
+          { id: "2", name: "Moderate Traffic" },
+          { id: "3", name: "Heavy Traffic" },
+        ],
+      };
+
+      function fetchLocalData() {
+        const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+        return storedData ? JSON.parse(storedData) : [];
+      }
+
+      function saveLocalData(data) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      }
+
+      function populateSelect(elementId, options) {
+        const selectElement = document.getElementById(elementId);
+        options.forEach((option) => {
+          const newOption = document.createElement("option");
+          newOption.value = option.id;
+          newOption.textContent = option.name;
+          selectElement.appendChild(newOption);
+        });
+      }
+
+      function populateData() {
+        populateSelect("idWeather", data.weather);
+        populateSelect("idRoadType", data.roadType);
+        populateSelect("idTraffic", data.traffic);
+      }
+
+      function initializeCharts() {
+        const ctxSummary = document
+          .getElementById("summaryChart")
+          .getContext("2d");
+        const ctxWeather = document
+          .getElementById("pieChartWeather")
+          .getContext("2d");
+        const ctxRoadType = document
+          .getElementById("pieChartRoadType")
+          .getContext("2d");
+        const ctxTraffic = document
+          .getElementById("pieChartTraffic")
+          .getContext("2d");
+
+        new Chart(ctxSummary, {
+          type: "bar",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: "Default Data",
+                data: [],
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Detailed Summary of Driving Experiences (Bar Chart)",
+              },
+            },
+          },
+        });
+
+        new Chart(ctxWeather, {
+          type: "pie",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                data: [],
+                backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#4BC0C0",
+                  "#9966FF",
+                ],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Weather Distribution",
+              },
+            },
+          },
+        });
+
+        new Chart(ctxRoadType, {
+          type: "pie",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                data: [],
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Road Type Distribution",
+              },
+            },
+          },
+        });
+
+        new Chart(ctxTraffic, {
+          type: "pie",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                data: [],
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Traffic Distribution",
+              },
+            },
+          },
+        });
+      }
+
+      document
+        .getElementById("submitExperience")
+        .addEventListener("click", () => {
+          const experiences = fetchLocalData();
+          const lastIdentifier =
+            experiences.length > 0
+              ? experiences[experiences.length - 1].identifier
+              : 0;
+          const identifier = lastIdentifier + 1;
+
+          const date = document.getElementById("date").value;
+          const startTime = document.getElementById("start_time").value;
+          const endTime = document.getElementById("end_time").value;
+          const km = parseInt(document.getElementById("km").value, 10);
+          const weather = document.getElementById("idWeather").value;
+          const roadType = document.getElementById("idRoadType").value;
+          const traffic = document.getElementById("idTraffic").value;
+
+          if (
+            !date ||
+            !startTime ||
+            !endTime ||
+            !km ||
+            !weather ||
+            !roadType ||
+            !traffic
+          ) {
+            alert("Please fill out all fields.");
+            return;
+          }
+
+          const newExperience = {
+            identifier,
+            date,
+            startTime,
+            endTime,
+            km,
+            weather,
+            roadType,
+            traffic,
+          };
+
+          experiences.push(newExperience);
+          saveLocalData(experiences);
+
+          alert(`Experience saved!`);
+          document.getElementById("drivingForm").reset();
+        });
+
+      populateData();
+      initializeCharts();
+    </script>
+  </body>
+</html>

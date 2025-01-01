@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "date": "2024-10-18",
+    "startTime": "08:30",
+    "endTime": "10:45",
+    "distance": 150,
+    "idWeather": 1,
+    "idRoadType": 2,
+    "idTraffic": 1
+  },
+  {
+    "id": 2,
+    "date": "2024-10-19",
+    "startTime": "14:00",
+    "endTime": "16:15",
+    "distance": 120,
+    "idWeather": 3,
+    "idRoadType": 1,
+    "idTraffic": 2
+  },
+  {
+    "id": 3,
+    "date": "2024-10-20",
+    "startTime": "09:00",
+    "endTime": "11:30",
+    "distance": 180,
+    "idWeather": 5,
+    "idRoadType": 3,
+    "idTraffic": 3
+  }
+]

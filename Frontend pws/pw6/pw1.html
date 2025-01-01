@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+    for (let A = 1; A <= 9; A++) {
+        for (let B = 1; B <= 9; B++) {
+            for (let C = 1; C <= 9; C++) {
+                const ABC = A * 100 + B * 10 + C;
+                const sumOfCubes = Math.pow(A, 3) + Math.pow(B, 3) + Math.pow(C, 3);
+                if (ABC === sumOfCubes) {
+                    console.log(`A = ${A}, B = ${B}, C = ${C} => ABC = ${ABC}, A^3 + B^3 + C^3 = ${sumOfCubes}`);
+                }
+            }
+        }
+    }
+    
+</script>
+
+</head>
+<body>
+    
+</body>
+</html>

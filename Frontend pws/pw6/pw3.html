@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function luhnCheck(cardNumber) {
+        const cardStr = cardNumber.toString();
+        const checkDigit = parseInt(cardStr.substring(cardStr.length - 1), 10);
+        const cardDigits = cardStr.substring(0, cardStr.length - 1);
+
+        const digitsArray = cardDigits
+          .split("")
+          .reverse()
+          .map((num) => parseInt(num, 10));
+
+        let sum = 0;
+
+        digitsArray.forEach((digit, index) => {
+          if (index % 2 === 0) {
+            let doubled = digit * 2;
+            sum += doubled > 9 ? doubled - 9 : doubled;
+          } else {
+            sum += digit;
+          }
+        });
+
+        sum += checkDigit;
+
+        const isValid = sum % 10 === 0;
+
+        console.log(`Card Number: ${cardNumber}`);
+        console.log(`Calculated Check Digit: ${checkDigit}`);
+        console.log(isValid ? "Validated" : "Not Validated");
+      }
+
+      const testCardNumber = 49927398716;
+      luhnCheck(testCardNumber);
+    </script>
+  </head>
+  <body></body>
+</html>

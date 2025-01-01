@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function giveChange(amount) {
+        const banknotes = [200, 100, 50, 20, 10, 5, 1];
+        const result = {};
+        for (let i = 0; i < banknotes.length; i++) {
+          let banknote = banknotes[i];
+
+          let count = Math.floor(amount / banknote);
+
+          if (count > 0) {
+            result[banknote] = count;
+            amount = amount % banknote;
+          }
+        }
+        console.log("Suggested change:");
+        for (let banknote in result) {
+          console.log(`${result[banknote]} banknote(s) of ${banknote} ₼`);
+        }
+      }
+      giveChange(369);
+    </script>
+  </head>
+  <body></body>
+</html>
